@@ -22,11 +22,6 @@ public class HelloController {
         this.peopleRepository = peopleRepository;
     }
 
-    @GetMapping("/hello")
-    public String test() {
-        return "hello";
-    }
-
     @GetMapping("/showUserInfo")
     @ResponseBody
     public String showUserInfo(HttpServletRequest request) {

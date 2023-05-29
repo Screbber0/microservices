@@ -73,11 +73,14 @@ public class OrderService {
 
         }
         // order.setOrderDishes(orderDishList);
-
-
-
         return ResponseEntity.ok(new OrderResponse(order));
+    }
 
 
+    public ResponseEntity<OrderResponse> getOrderById(Long order_id) {
+        Optional<Order> order = orderRepository.findById(order_id);
+
+        return order.map(value -> ResponseEntity.ok(new OrderResponse(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
