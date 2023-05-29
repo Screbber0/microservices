@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import screbber.restaurant.models.Dish;
 import screbber.restaurant.repositories.DishRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class DishService {
     }
 
     public List<Dish> getAllDishes() {
-        return dishRepository.findAll();
+        return new ArrayList<>(dishRepository.findAll());
     }
 
     public Dish getDishById(Long id) {

@@ -30,7 +30,4 @@ public class Dish {
 
     @Column(name = "is_available")
     private boolean isAvailable;
-
-    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
-    private List<OrderDish> orderDishes;
 }

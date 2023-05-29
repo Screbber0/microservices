@@ -21,7 +21,7 @@ public class DishController {
     }
 
     @GetMapping("/menu")
-    public ResponseEntity<?> getAllDishes() {
+    public ResponseEntity<List<Dish>> getAllDishes() {
         List<Dish> dishList = dishService.getAllDishes();
         if (dishList.isEmpty()) {
             return ResponseEntity.noContent().build();
