@@ -1,36 +1,38 @@
 package screbber.restaurant.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import screbber.restaurant.exceptions.DishNotFoundException;
 import screbber.restaurant.models.Dish;
 import screbber.restaurant.repositories.DishRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class DishService {
 
-    
+    private final DishRepository dishRepository;
 
     @Autowired
-    public DishService() {
+    public DishService(DishRepository dishRepository) {
         this.dishRepository = dishRepository;
     }
+
 
     public Dish createDish(Dish dish) {
         return dishRepository.save(dish);
     }
 
-    public List<Dish> getAllDishes() {
-        return new ArrayList<>(dishRepository.findAll());
+    public Page<Dish> getAllDishes(Pageable pageable) {
+        return dishRepository.findAll(pageable);
     }
+
 
     public Dish getDishById(Long id) {
         Optional<Dish> dish = dishRepository.findById(id);
-        return dish.orElseThrow(() -> new EntityNotFoundException("Dish not found with id: " + id));
+        return dish.orElseThrow(() -> new DishNotFoundException(id));
     }
 
     public Dish updateDish(Long id, Dish updatedDish) {
@@ -43,14 +45,14 @@ public class DishService {
                     dish.setDescription(updatedDish.getDescription());
                     return dishRepository.save(dish);
                 })
-                .orElseThrow(() -> new EntityNotFoundException("Dish not found with id: " + id));
+                .orElseThrow(() -> new DishNotFoundException(id));
     }
 
     public void deleteDish(Long id) {
         if (dishRepository.existsById(id)) {
             dishRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Dish not found with id: " + id);
+            throw new DishNotFoundException(id);
         }
     }
 }

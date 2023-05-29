@@ -1,13 +1,13 @@
 package screbber.restaurant.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import screbber.restaurant.models.Dish;
 import screbber.restaurant.services.DishService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/restaurant/dish")
@@ -21,12 +21,8 @@ public class DishController {
     }
 
     @GetMapping("/menu")
-    public ResponseEntity<List<Dish>> getAllDishes() {
-        List<Dish> dishList = dishService.getAllDishes();
-        if (dishList.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(dishList);
+    public Page<Dish> getAllDishes(Pageable pageable) {
+        return dishService.getAllDishes(pageable);
     }
 
     @GetMapping("/{id}")

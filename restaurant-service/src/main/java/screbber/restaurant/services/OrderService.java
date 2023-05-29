@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import screbber.restaurant.dto.OrderDTO;
 import screbber.restaurant.dto.OrderDishDTO;
+import screbber.restaurant.exceptions.DishNotFoundException;
+import screbber.restaurant.exceptions.OrderNotFoundException;
 import screbber.restaurant.models.Dish;
 import screbber.restaurant.models.OrderDish;
 import screbber.restaurant.models.Person;
@@ -58,15 +60,11 @@ public class OrderService {
         orderRepository.save(order);
 
         for (OrderDishDTO orderDishDTO : orderDTO.getOrderDishList()) {
-            Optional<Dish> dish = dishRepository.findById(orderDishDTO.getDishId());
-
-            if (dish.isEmpty()) {
-                throw new RuntimeException("dish not found");
-            }
+            Dish dish = dishRepository.findById(orderDishDTO.getDishId()).orElseThrow();
 
             OrderDish orderDish = convertToOrderDish(orderDishDTO);
             orderDish.setOrder(order);
-            orderDish.setDish(dish.get());
+            orderDish.setDish(dish);
             orderDishRepository.save(orderDish);
         }
         return ResponseEntity.ok(new OrderResponse(order));
@@ -77,6 +75,6 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(order_id);
 
         return order.map(value -> ResponseEntity.ok(new OrderResponse(value)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new OrderNotFoundException(order_id));
     }
 }
