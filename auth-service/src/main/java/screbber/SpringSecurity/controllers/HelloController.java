@@ -17,12 +17,7 @@ public class HelloController {
     public HelloController(AdminService adminService) {
         this.adminService = adminService;
     }
-
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "hello";
-    }
-
+    
     @GetMapping("/showUserInfo")
     @ResponseBody
     public String showUserInfo() {
