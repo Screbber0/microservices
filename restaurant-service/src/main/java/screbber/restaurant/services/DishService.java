@@ -13,10 +13,10 @@ import java.util.Optional;
 @Service
 public class DishService {
 
-    private final DishRepository dishRepository;
+    
 
     @Autowired
-    public DishService(DishRepository dishRepository) {
+    public DishService() {
         this.dishRepository = dishRepository;
     }
 

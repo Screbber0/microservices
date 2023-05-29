@@ -1,9 +1,10 @@
 package screbber.restaurant.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import screbber.restaurant.models.Dish;
 
-import javax.swing.text.html.Option;
-
-public interface DishRepository extends JpaRepository<Dish, Long> {
+public interface DishRepository extends PagingAndSortingRepository<Dish, Long> {
+    Page<Dish> findAll(Pageable pageable);
 }
