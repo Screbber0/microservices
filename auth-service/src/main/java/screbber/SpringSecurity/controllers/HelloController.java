@@ -1,6 +1,7 @@
 package screbber.SpringSecurity.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,8 +29,8 @@ public class HelloController {
     }
 
     @GetMapping("/admin")
-    public String adminPage() {
+    public ResponseEntity<?> adminPage() {
         adminService.doAdminStuff();
-        return "admin";
+        return ResponseEntity.ok("Admin here");
     }
 }

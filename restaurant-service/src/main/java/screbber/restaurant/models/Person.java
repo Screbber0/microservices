@@ -3,6 +3,7 @@ package screbber.restaurant.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import screbber.restaurant.models.order.Order;
@@ -13,8 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Person")
-@Getter
-@Setter
+@Data
 public class Person {
     @Id
     @Column(name = "id")
@@ -45,5 +45,14 @@ public class Person {
     private List<Order> orders;
 
     public Person() {
+    }
+
+    public String getRole() {
+        System.out.println("role: " + role);
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

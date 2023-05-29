@@ -3,10 +3,11 @@ package screbber.restaurant.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "dish")
 public class Dish {

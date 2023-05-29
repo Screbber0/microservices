@@ -16,9 +16,8 @@ import screbber.restaurant.repositories.DishRepository;
 import screbber.restaurant.repositories.OrderDishRepository;
 import screbber.restaurant.repositories.OrderRepository;
 import screbber.restaurant.repositories.PeopleRepository;
+import screbber.restaurant.security.JWTUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -58,7 +57,6 @@ public class OrderService {
         order.setUser(person);
         orderRepository.save(order);
 
-        List<OrderDish> orderDishList = new ArrayList<>();
         for (OrderDishDTO orderDishDTO : orderDTO.getOrderDishList()) {
             Optional<Dish> dish = dishRepository.findById(orderDishDTO.getDishId());
 
@@ -70,9 +68,7 @@ public class OrderService {
             orderDish.setOrder(order);
             orderDish.setDish(dish.get());
             orderDishRepository.save(orderDish);
-
         }
-        // order.setOrderDishes(orderDishList);
         return ResponseEntity.ok(new OrderResponse(order));
     }
 

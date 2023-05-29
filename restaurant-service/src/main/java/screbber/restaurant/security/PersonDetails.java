@@ -1,9 +1,9 @@
-package screbber.SpringSecurity.security;
+package screbber.restaurant.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import screbber.SpringSecurity.models.Person;
+import screbber.restaurant.models.Person;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -17,7 +17,9 @@ public class PersonDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(person.getRole()));
+        String role = person.getRole();
+        System.out.println(role);
+        return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
     @Override

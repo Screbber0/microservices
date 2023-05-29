@@ -6,20 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import screbber.restaurant.repositories.PeopleRepository;
-import screbber.restaurant.services.JWTUtil;
-
+import screbber.restaurant.security.JWTUtil;
 
 @RestController
 public class HelloController {
 
+    private final PeopleRepository peopleRepository;
     private final JWTUtil jwtUtil;
 
-    private final PeopleRepository peopleRepository;
-
     @Autowired
-    public HelloController(JWTUtil jwtUtil, PeopleRepository peopleRepository) {
-        this.jwtUtil = jwtUtil;
+    public HelloController(PeopleRepository peopleRepository, JWTUtil jwtUtil) {
         this.peopleRepository = peopleRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/showUserInfo")
@@ -29,7 +27,6 @@ public class HelloController {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String jwt = authHeader.substring(7);
             String username = jwtUtil.validateTokenAndRetrieveClaim(jwt);
-            int person_id = peopleRepository.findByUsername(username).orElseThrow().getId();
             return username;
 
         } else {
